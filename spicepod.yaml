@@ -5,7 +5,7 @@ name: tailwindcss
 datasets:
   - from: github:github.com/tailwindlabs/tailwindcss.com/files/master
     name: tailwindcss.docs
-    description: React.js documentation and reference, from https://react.dev
+    description: Tailwindcss documentation and reference, from https://tailwindcss.com
     params:
       github_token: ${secrets:GITHUB_TOKEN}
       include: "src/pages/docs/**/*.mdx;"
