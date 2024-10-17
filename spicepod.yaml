@@ -7,6 +7,7 @@ datasets:
     name: tailwindcss.docs
     description: Tailwindcss documentation and reference, from https://tailwindcss.com
     params:
+      file_format: md
       github_client_id: ${secrets:GITHUB_CLIENT_ID}
       github_private_key: ${secrets:GITHUB_PRIVATE_KEY}
       github_installation_id: ${secrets:GITHUB_INSTALLATION_ID}
@@ -15,13 +16,24 @@ datasets:
       enabled: true
       refresh_check_interval: 4h
       refresh_jitter_enabled: true
-      refresh_jitter_max: 30m
+      refresh_jitter_max: 15m
+    embeddings:
+      - column: content
+        column_pk:
+          - path
+        use: openai_embeddings
+        chunking:
+          enabled: true
+          target_chunk_size: 512
+          overlap_size: 128
+          trim_whitespace: true
 
   - from: github:github.com/tailwindlabs/tailwindcss/issues
     name: tailwindcss.issues
     description: Tailwindcss GitHub issues from github.com/tailwindlabs/tailwindcss
     time_column: created_at
     params:
+      file_format: md
       github_client_id: ${secrets:GITHUB_CLIENT_ID}
       github_private_key: ${secrets:GITHUB_PRIVATE_KEY}
       github_installation_id: ${secrets:GITHUB_INSTALLATION_ID}
@@ -30,4 +42,15 @@ datasets:
       refresh_mode: full
       refresh_check_interval: 4h
       refresh_jitter_enabled: true
-      refresh_jitter_max: 30m
+      refresh_jitter_max: 15m
+    # embeddings:
+    #   - column: title
+    #     column_pk:
+    #       - id
+    #     use: openai_embeddings
+
+embeddings:
+  - from: openai
+    name: openai_embeddings
+    params:
+      openai_api_key: ${ secrets:OPENAI_API_KEY }
