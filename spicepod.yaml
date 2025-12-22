@@ -2,6 +2,9 @@ version: v1beta1
 kind: Spicepod
 name: tailwindcss
 
+runtime:
+  dataset_load_parallelism: 1
+
 datasets:
   - from: github:github.com/tailwindlabs/tailwindcss.com/files/master
     name: tailwindcss.docs
